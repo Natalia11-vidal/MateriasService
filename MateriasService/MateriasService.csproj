@@ -29,10 +29,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Materias\Delete\" />
-    <Folder Include="Features\Materias\Update\" />
-    <Folder Include="Features\Materias\GetById\" />
-  </ItemGroup>
-
 </Project>
