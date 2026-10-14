@@ -32,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Features\Materias\Delete\" />
     <Folder Include="Features\Materias\Update\" />
+    <Folder Include="Features\Materias\GetById\" />
   </ItemGroup>
 
 </Project>

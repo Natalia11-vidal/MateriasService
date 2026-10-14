@@ -17,13 +17,11 @@ namespace MateriasService.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Codigo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Creditos = table.Column<int>(type: "int", nullable: false),
-                    Programa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Nrc = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,9 +29,14 @@ namespace MateriasService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Materias_Codigo",
+                name: "IX_Materias_UsuarioId",
                 table: "Materias",
-                column: "Codigo",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Materias_UsuarioId_Nrc",
+                table: "Materias",
+                columns: new[] { "UsuarioId", "Nrc" },
                 unique: true);
         }
 
