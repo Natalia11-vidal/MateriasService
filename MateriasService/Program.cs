@@ -60,6 +60,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
+// --- Health checks: el pipeline y Kubernetes preguntan si el servicio está vivo ---
+builder.Services.AddHealthChecks();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -71,18 +74,23 @@ var app = builder.Build();
 // --- Primero: captura cualquier excepción de lo que viene después ---
 app.UseExceptionHandler();
 
+// --- Crea o actualiza las tablas al arrancar (en todos los entornos) ---
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<MateriasDbContext>().Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    // Crea o actualiza las tablas al arrancar
-    using var scope = app.Services.CreateScope();
-    scope.ServiceProvider.GetRequiredService<MateriasDbContext>().Database.Migrate();
 }
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// --- Salud: responde "Healthy" sin token ---
+app.MapHealthChecks("/health");
 
 // --- Endpoints: Carter registra todos los ICarterModule del proyecto ---
 app.MapCarter();
